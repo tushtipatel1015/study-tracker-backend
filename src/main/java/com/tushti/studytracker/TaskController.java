@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/tasks")
 @CrossOrigin(origins = {
-    "http://localhost:5173",
+    //"http://localhost:5173",
     "https://study-tracker-nine-mu.vercel.app/"
 })
 
