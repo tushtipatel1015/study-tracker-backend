@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findAllByOrderByOrderIndexAsc();
-    Task findTopByOrderByOrderIndexDesc();
+
+    List<Task> findByUserIdOrderByOrderIndexAsc(String userId);
+
+    Task findTopByUserIdOrderByOrderIndexDesc(String userId);
 }

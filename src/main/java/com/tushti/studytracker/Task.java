@@ -1,5 +1,6 @@
 package com.tushti.studytracker;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +11,8 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private String userId;
     private Long id;
     private int orderIndex;
     private String title;
@@ -23,10 +26,13 @@ public class Task {
     }
 
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     public String getTitle() { return title; }
     public boolean isDone() { return done; }
     public int getOrderIndex() { return orderIndex; }
     public void setOrderIndex(int orderIndex) { this.orderIndex = orderIndex; }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 
     public void setTitle(String title) { this.title = title; }
     public void setDone(boolean done) { this.done = done; }

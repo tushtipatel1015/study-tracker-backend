@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,26 +31,21 @@ public class TaskController {
 
     // GET all
     @GetMapping
-    public List<Task> getAll() {
-        return repo.findAllByOrderByOrderIndexAsc();
-    }
-
-    // POST new
-    @PostMapping
-    public Task create(@RequestBody Task task) {
-        Task last = repo.findTopByOrderByOrderIndexDesc();
-        int nextIndex = (last == null) ? 0 : last.getOrderIndex() + 1;
-
-        task.setOrderIndex(nextIndex);
-    return repo.save(task);
+    public List<Task> getTasks(@RequestParam String userId) {
+        return repo.findByUserIdOrderByOrderIndexAsc(userId);
     }
 
     // PATCH toggle
-    @PatchMapping("/{id}")
-    public Task toggle(@PathVariable Long id) {
-        Task t = repo.findById(id).orElseThrow();
-        t.setDone(!t.isDone());
-        return repo.save(t);
+    @PostMapping
+    public Task create(@RequestParam String userId, @RequestBody Task task) {
+        task.setId(null);          // make sure it becomes a NEW row
+        task.setUserId(userId);
+
+        Task last = repo.findTopByUserIdOrderByOrderIndexDesc(userId);
+        int nextIndex = (last == null) ? 0 : last.getOrderIndex() + 1;
+        task.setOrderIndex(nextIndex);
+
+        return repo.save(task);
     }
 
     @PutMapping("/{id}")
@@ -69,6 +65,13 @@ public class TaskController {
             t.setOrderIndex(i);
             repo.save(t);
         }
+    }
+
+    @PatchMapping("/{id}")
+    public Task toggleDone(@PathVariable Long id) {
+        Task task = repo.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+        task.setDone(!task.isDone());
+        return repo.save(task);
     }
 
 public record ReorderRequest(List<Long> orderedIds) {}
