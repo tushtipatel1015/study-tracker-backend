@@ -11,11 +11,16 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private String userId;
     private Long id;
-    private int orderIndex;
+
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
+    @Column(name = "order_index")
+    private Integer orderIndex;
+
     private String title;
+
     private boolean done;
 
     public Task() {}
