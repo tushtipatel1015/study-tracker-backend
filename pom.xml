@@ -49,7 +49,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<dependency> <!-- doesn't do anything anymore since render database expired -->
   			<groupId>org.postgresql</groupId>
   			<artifactId>postgresql</artifactId>
  			<scope>runtime</scope>
